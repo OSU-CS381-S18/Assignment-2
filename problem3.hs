@@ -10,7 +10,6 @@ data Mode = Up | Down
   deriving (Eq,Show)
 
 type State = (Mode,Int,Int)
-
 type Line = (Int,Int,Int,Int)
 type Lines = [Line]
 
@@ -27,6 +26,6 @@ semS (Seq cmd1 cmd2) state = (lastState, l1 ++ l2)
         (lastState, l2) = semS cmd2 newState
 
 -- sem'
--- sem' :: Cmd -> Lines
 
--- haven't finished this one yet
+sem' :: Cmd -> Lines
+sem' cmd = snd (semS cmd (Up, 0, 0))
