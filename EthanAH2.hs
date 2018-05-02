@@ -11,10 +11,6 @@ type D = Maybe Stack -> Maybe Stack
 sem :: Prog -> D
 sem [] stack = stack
 
--- Using a Lambda Lifing expresion, this is a way to turn variables into arguments.
---sem (x:xs) (Just c) | (sem xs(semCmd x (Just c))) == Nothing = Nothing
---                    | otherwise = (sem xs(semCmd x (Just c)))
-
 sem (x:xs) (Just c) = if (sem xs(semCmd x (Just c))) == Nothing
                       then Nothing
                       else (sem xs(semCmd x (Just c)))
@@ -28,21 +24,20 @@ semCmd ADD(Just list) = if length list == 0
                         then Nothing
                         else Just (((head list) + (head (tail list))) : drop 2 list)
 
+semCmd MULT(Just list) = if length list == 0
+                        then Nothing
+                        else if length list == 1
+                        then Nothing
+                        else Just (((head list) * (head (tail list))) : drop 2 list)
 
-{-semCmd Add(Just list) = case length list of
-                        0 -> Nothing
-                        1 -> Nothing
-                        _ -> Just (((head list) + (head (tail list))) : drop 2 list)-}
--- sem (Add) (StackList) = ((StackList !! 0) + (stackList !! 1))
--- sem (Add) (x:stackList) = ((head stackList) + (head (tail stackList))) -- (drop 2 stackList)
--- sem (Add) (x:stackList) = (x + (head stackList))
--- semCmd Add (List == []) = Nothing
---semCmd (ADD) ([]) = []
---semCmd (ADD) (x:y:stackList) = (x+y):stackList
-{-semCmd (MULT) ([]) = []
-semCmd (MULT) (x:y:stackList) =  (x*y):stackList
-semCmd (DUP) (x:stackList) = (x:x:stackList)
--}
+semCmd DUP (Just list) = if length list == 0
+                        then Nothing
+                        else if length list == 1
+                        then Nothing
+                        else Just ((head list):list)
+
+
+
 -- example programs
 --
 p :: Prog
