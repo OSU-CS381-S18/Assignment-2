@@ -5,32 +5,42 @@ data Cmd = Ld Int
          | Dup
          
 type Stack = [Int]
-type D = Stack -> Stack
+type D = Maybe Stack -> Maybe Stack
 
 sem :: Prog -> D
 sem [] stack = stack
 
+
 semCmd :: Cmd -> D
-semCmd (Ld x) stackList = (x:stackList)
--- sem (Add) (StackList) = ((StackList !! 0) + (stackList !! 1))
+semCmd (Ld x) (Just list) = (Just (x:list))
+--sem (Add) (StackList) = ((StackList !! 0) + (stackList !! 1))
 -- sem (Add) (x:stackList) = ((head stackList) + (head (tail stackList))) -- (drop 2 stackList)
 -- sem (Add) (x:stackList) = (x + (head stackList))
 -- semCmd Add (List == []) = Nothing
-semCmd (Add) ([]) = []
-semCmd (Add) (x:y:stackList) = (x+y):stackList
-semCmd (Mult) ([]) = []
+-- semCmd (Add) ([]) = []
+-- semCmd (Add) (Just (x:y:stackList)) = Just ((x+y):stackList)
+
+semCmd Add(Just list) = case length list of
+                        0 -> Nothing
+                        1 -> Nothing
+                        _ -> Just (((head list) + (head (tail list))) : drop 2 list)
+--semCmd (Add) (Just (x:y:stackList)) = case length stackList of
+--  0 -> Empty 
+--  1 -> Error
+--  _ -> Just ((x+y):stackList)
+{-semCmd (Mult) ([]) = []
 semCmd (Mult) (x:y:stackList) =  (x*y):stackList 
 semCmd (Dup) (x:stackList) = (x:x:stackList)
-
+-}
 -------------------Exercise 2 part a---------------------------------------------------------
-
+{-
 data C = LD Int
        | ADD
        | MULT
        | DUP
        | Def String
        | Call String 
-	   
+       
 -------------------Exercise 2 part b---------------------------------------------------------      
 
 type Macros = [(String,Prog)]
@@ -41,4 +51,4 @@ type Prg = [C]
 
 semCmd2 :: C -> D
 semCmd2 (LD num) (x,y) = (x, (num:y))
---semCmd2 (ADD) (x,())
+--semCmd2 (ADD) (x,()) -}
