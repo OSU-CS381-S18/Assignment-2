@@ -15,7 +15,7 @@
 --
 -- semCmd :: Cmd -> D
 
--- 1)
+-- 1)-----------------------------
 type Stack = [Int]
 type Prog = [Cmd]
 data Cmd = LD Int
