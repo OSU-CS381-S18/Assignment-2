@@ -1,4 +1,4 @@
-{-type Prog = [Cmd]
+type Prog = [Cmd]
 data Cmd = LD Int
          | ADD
          | MULT
@@ -47,9 +47,9 @@ e = []
 empty = Just []
 test1 = sem p empty
 test2 = sem q empty
-test3 = sem e empty -}
+test3 = sem e empty 
 ------ Part 2
-type Stack = [Int]
+--type Stack = [Int]
 type Macros = [(String,Prog2)]
 type State = (Macros, Stack)
 type Prog2 = [Cmd2]
@@ -87,7 +87,11 @@ semCmd2 DUP2 (Just(x, list)) = if length list == 0
                                then Nothing
                                else Just (x, ((list !! 0) : list))
 
---semCmd2 (DEF list stack)
+semCmd2 (DEF list stack) (Just (x,y)) = (Just(((list,stack):x), y))
+
+{-semCmd2 (CALL p) (Just (x,y)) = case (Just (lookup p x)) of
+                                        Just r -> sem2 r (x,y);
+                                        Nothing -> (Just (x,y));-}
 
 
 
