@@ -102,31 +102,31 @@ semCmd2 (CALL c) (Just(x,y)) = case lookup c x of
 -- Exercise 3. Mini Logo
 -- Taylor Griffin
 
-data Cmd = Pen Mode
+data Cmd3 = Pen Mode
   | MoveTo Int Int
-  | Seq Cmd Cmd
+  | Seq Cmd3 Cmd3
   deriving (Eq,Show)
 
 data Mode = Up | Down
   deriving (Eq,Show)
 
-type State = (Mode,Int,Int)
+type State2 = (Mode,Int,Int)
 type Line = (Int,Int,Int,Int)
 type Lines = [Line]
 
 -- semS
 
-semS :: Cmd -> State -> (State,Lines)
+semS :: Cmd3 -> State2 -> (State2,Lines)
 semS (Pen mode) (_, x, y) = ((mode, x, y),[])
 semS (MoveTo a b) (mode, x, y) =
   if mode == Up
     then ((Up, a, b),[])
     else ((Down, a, b),[(x,y,a,b)])
-semS (Seq cmd1 cmd2) state = (lastState, l1 ++ l2)
-  where (newState, l1) = semS cmd1 state
-        (lastState, l2) = semS cmd2 newState
+semS (Seq cmd4 cmd5) state2 = (lastState, l1 ++ l2)
+  where (newState, l1) = semS cmd4 state2
+        (lastState, l2) = semS cmd5 newState
 
 -- sem'
 
-sem' :: Cmd -> Lines
-sem' cmd = snd (semS cmd (Up, 0, 0))
+sem' :: Cmd3 -> Lines
+sem' cmd3 = snd (semS cmd3 (Up, 0, 0))
