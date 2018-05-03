@@ -89,9 +89,9 @@ semCmd2 DUP2 (Just(x, list)) = if length list == 0
 
 semCmd2 (DEF list stack) (Just (x,y)) = (Just(((list,stack):x), y))
 
-{-semCmd2 (CALL p) (Just (x,y)) = case (Just (lookup p x)) of
-                                        Just r -> sem2 r (x,y);
-                                        Nothing -> (Just (x,y));-}
+semCmd2 (CALL p) (Just(x,y)) = case lookup p x of
+                                        Just r -> sem2 r (Just (x,y));
+                                        Nothing -> (Just(x,y));
 
 
 
